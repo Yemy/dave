@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steel Shop Manager</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+    <div id="toast" class="toast hidden">Action Successful</div>
+
+    <section id="login-view" class="view active">
+        <div class="login-card">
+            <h1>SteelMaster 🏗️</h1>
+            <p>Shop Management System</p>
+            <form id="login-form">
+                <div class="input-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="login-phone" placeholder="0911..." required>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="login-pass" required>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="app-view" class="view hidden">
+        <header class="app-header">
+            <h2>Dashboard</h2>
+            <button id="logout-btn" class="icon-btn"><i class="material-icons">logout</i></button>
+        </header>
+
+        <div class="dashboard-grid">
+            <div class="card summary-card">
+                <span>Today's Sales</span>
+                <h3 id="dash-count">0</h3>
+            </div>
+            <div class="card summary-card green">
+                <span>Total Paid</span>
+                <h3 id="dash-paid">$0</h3>
+            </div>
+            <div class="card summary-card red">
+                <span>Credit / Unpaid</span>
+                <h3 id="dash-credit">$0</h3>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <input type="text" id="search-input" placeholder="Search Customer or Phone...">
+            <div class="filter-row">
+                <select id="filter-status">
+                    <option value="all">All Status</option>
+                    <option value="Paid">Paid</option>
+                    <option value="Credit">Credit</option>
+                    <option value="Return">Return</option>
+                </select>
+                <input type="date" id="filter-date">
+            </div>
+        </div>
+
+        <div id="sales-list" class="sales-list">
+            <div class="loading">Loading data...</div>
+        </div>
+
+        <button id="fab-add" class="fab"><i class="material-icons">add</i></button>
+    </section>
+
+    <section id="form-view" class="view hidden">
+        <header class="app-header">
+            <button id="back-btn" class="icon-btn"><i class="material-icons">arrow_back</i></button>
+            <h2 id="form-title">New Sale</h2>
+            <div style="width: 24px;"></div> </header>
+
+        <form id="sale-form" class="content-pad">
+            <input type="hidden" id="sale-id"> <div class="input-group">
+                <label>Customer Name</label>
+                <input type="text" id="cust-name" required>
+            </div>
+            <div class="input-group">
+                <label>Phone Number</label>
+                <input type="tel" id="cust-phone">
+            </div>
+
+            <div class="row">
+                <div class="input-group">
+                    <label>Steel Type</label>
+                    <select id="steel-type" required>
+                        <option value="L-Shape">L-Shape</option>
+                        <option value="O-Shape">O-Shape</option>
+                        <option value="U-Shape">U-Shape</option>
+                        <option value="T-Shape">T-Shape</option>
+                        <option value="Flat Bar">Flat Bar</option>
+                        <option value="Custom">Custom...</option>
+                    </select>
+                    <input type="text" id="custom-steel-input" class="hidden mt-1" placeholder="Type name...">
+                </div>
+                <div class="input-group">
+                    <label>Size</label>
+                    <input type="text" id="steel-size" placeholder="e.g. 6m">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-group">
+                    <label>Quantity</label>
+                    <input type="number" id="qty" min="1" value="1" required>
+                </div>
+                <div class="input-group">
+                    <label>Unit Price</label>
+                    <input type="number" id="unit-price" step="0.01" required>
+                </div>
+            </div>
+
+            <div class="total-display">
+                Total: <span id="calc-total">0.00</span>
+            </div>
+
+            <div class="input-group">
+                <label>Payment Status</label>
+                <select id="status" required>
+                    <option value="Paid">Paid</option>
+                    <option value="Credit">Credit (Unpaid)</option>
+                    <option value="Return">Return</option>
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label>Note (Optional)</label>
+                <textarea id="note" rows="2"></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary">Save Sale</button>
+            <button type="button" id="delete-btn" class="btn-danger hidden">Delete Sale</button>
+        </form>
+    </section>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
