@@ -39,9 +39,10 @@ function initApp(user) {
     // Real-time listener
     salesUnsubscribe = db.collection('sales')
         .where('userId', '==', currentUser.uid)
-        .orderBy('date', 'desc')
         .onSnapshot(snapshot => {
             allSales = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            // Sort client-side to avoid permission issues
+            allSales.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
             renderApp();
         });
 }
