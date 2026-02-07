@@ -49,100 +49,388 @@
     </section>
 
     <section id="app-view" class="view hidden">
-        <header class="app-header">
-            <h2>Dave Records</h2>
-            <button id="logout-btn" class="icon-btn"><i class="material-icons">logout</i></button>
-        </header>
+        <div class="app-layout">
+            <!-- Desktop Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <h2>Dave Records</h2>
+                </div>
+                <nav class="sidebar-nav">
+                    <button class="nav-item active" data-target="dashboard">
+                        <i class="material-icons">dashboard</i> Dashboard
+                    </button>
+                    <button class="nav-item" data-target="customers">
+                        <i class="material-icons">people</i> Customers
+                    </button>
+                    <button class="nav-item" data-target="sales">
+                        <i class="material-icons">receipt</i> Sales
+                    </button>
+                    <button class="nav-item" data-target="purchases">
+                        <i class="material-icons">shopping_cart</i> Purchases
+                    </button>
+                    <button class="nav-item" data-target="settings">
+                        <i class="material-icons">settings</i> Settings
+                    </button>
+                </nav>
+                <div class="sidebar-footer">
+                    <button id="logout-btn-desktop" class="nav-item"><i class="material-icons">logout</i> Logout</button>
+                </div>
+            </aside>
 
-        <div class="dashboard-grid">
-            <div class="card">
-                <span>Today's Sales</span>
-                <h3 id="dash-count">0</h3>
-            </div>
-            <div class="card green-border">
-                <span>Total Paid</span>
-                <h3 id="dash-paid">ETB0</h3>
-            </div>
-            <div class="card red-border">
-                <span>Credit / Unpaid</span>
-                <h3 id="dash-credit">ETB0</h3>
-            </div>
+            <!-- Main Content Area -->
+            <main class="main-content">
+                <header class="mobile-header">
+                    <div class="mobile-header-left">
+                        <h2>Dave Records</h2>
+                    </div>
+                    <div class="mobile-header-right">
+                        <button id="logout-btn-mobile" class="icon-btn"><i class="material-icons">logout</i></button>
+                    </div>
+                </header>
+
+                <!-- 1. DASHBOARD VIEW -->
+                <div id="dashboard-view" class="sub-view">
+                    <div class="dashboard-grid">
+                        <div class="card clickable" id="dash-sales-card">
+                            <span>Today's Sales</span>
+                            <h3 id="dash-count">0</h3>
+                        </div>
+                        <div class="card green-border">
+                            <span>Total Paid</span>
+                            <h3 id="dash-paid">ETB0</h3>
+                        </div>
+                        <div class="card red-border">
+                            <span>Credit / Unpaid</span>
+                            <h3 id="dash-credit">ETB0</h3>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-row">
+                             <select id="dash-date-filter">
+                                <option value="today">Today</option>
+                                <option value="yesterday">Yesterday</option>
+                                <option value="this_month">This Month</option>
+                                <option value="custom">Custom Date...</option>
+                            </select>
+                            <input type="date" id="dash-custom-date" class="hidden">
+                        </div>
+                         <div class="filter-row mt-2">
+                             <select id="dash-customer-filter">
+                                <option value="all">All Customers</option>
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                    </div>
+                     <!-- Dashboard recent activity or summary could go here -->
+                </div>
+
+                <!-- 2. CUSTOMERS VIEW -->
+                <div id="customers-view" class="sub-view hidden">
+                    <div class="view-header">
+                        <h3>Customers</h3>
+                        <button id="add-customer-btn" class="btn-primary-small"><i class="material-icons">add</i> New</button>
+                    </div>
+                    <div id="customer-list" class="list-container">
+                        <!-- Customer Items -->
+                    </div>
+                </div>
+
+                <!-- 3. SALES VIEW -->
+                <div id="sales-view" class="sub-view hidden">
+                    <div class="view-header">
+                        <h3>Sales Overview</h3>
+                        <div class="filter-row">
+                            <input type="text" id="sales-search" placeholder="Search Customers...">
+                        </div>
+                    </div>
+                    <div id="sales-list" class="list-container">
+                        <!-- Sales Items -->
+                    </div>
+                    <button id="fab-add-sale" class="fab"><i class="material-icons">add</i></button>
+                </div>
+
+                <!-- 4. PURCHASES VIEW -->
+                <div id="purchases-view" class="sub-view hidden">
+                    <div class="view-header">
+                        <h3>Purchase Records</h3>
+                        <div class="filter-row" style="margin-top:0.5rem; width:100%;">
+                            <input type="text" id="purchases-search" placeholder="Search Purchases..." style="width:100%;">
+                        </div>
+                    </div>
+                    <div id="purchase-list" class="list-container">
+                        <!-- Purchase Items -->
+                    </div>
+                    <button id="add-purchase-btn-fab" class="fab"><i class="material-icons">add</i></button>
+                </div>
+                 
+                <!-- 5. DRILL DOWN VIEW -->
+                <div id="drill-down-view" class="sub-view hidden">
+                    <div class="view-header">
+                        <button id="drill-down-back-btn" class="icon-btn" style="color:#333; margin-right:10px;"><i class="material-icons">arrow_back</i></button>
+                        <h3 id="drill-down-title">Filtered Sales</h3>
+                    </div>
+                    <div id="drill-down-list" class="list-container">
+                        <!-- Records -->
+                    </div>
+                </div>
+
+                <!-- 6. SETTINGS VIEW -->
+                 <div id="settings-view" class="sub-view hidden">
+                    <h3>Settings</h3>
+                    <div class="card">
+                        <h4>Change Password</h4>
+                        <form id="change-password-form">
+                            <div class="input-group">
+                                <label>New Password</label>
+                                <input type="password" id="new-password" required>
+                            </div>
+                            <button type="submit" class="btn-primary">Update Password</button>
+                        </form>
+                    </div>
+                 </div>
+
+                 <!-- 6. CUSTOMER DETAIL VIEW -->
+                 <div id="customer-detail-view" class="sub-view hidden">
+                     <div class="view-header">
+                         <button id="cust-detail-back-btn" class="icon-btn" style="color:#333"><i class="material-icons">arrow_back</i></button>
+                         <h3 id="cust-detail-name">Customer Name</h3>
+                         <div style="display: flex; gap: 0.5rem;">
+                             <button id="edit-customer-profile-btn" class="btn-primary-small"><i class="material-icons">edit</i></button>
+                             <button id="delete-customer-profile-btn" class="btn-primary-small" style="background: var(--red);"><i class="material-icons">delete</i></button>
+                         </div>
+                     </div>
+                     
+                     <!-- Customer specific dashboard -->
+                     <div class="dashboard-grid">
+                        <div class="card">
+                            <span>Total Sales</span>
+                            <h3 id="cd-total-sales">0</h3>
+                        </div>
+                        <div class="card green-border">
+                            <span>Paid</span>
+                            <h3 id="cd-paid">ETB0</h3>
+                        </div>
+                        <div class="card red-border">
+                            <span>Credit</span>
+                            <h3 id="cd-credit">ETB0</h3>
+                        </div>
+                    </div>
+
+                    <div class="view-header">
+                        <h4>History</h4>
+                    </div>
+                    <div id="cust-detail-list" class="list-container"></div>
+                 </div>
+
+            </main>
         </div>
 
-        <div class="filter-section">
-            <input type="text" id="search-input" placeholder="Search Customer...">
-            <div class="filter-row">
-                <select id="filter-status">
-                    <option value="all">All Status</option>
-                    <option value="Paid">Paid</option>
-                    <option value="Credit">Credit</option>
-                    <option value="Return">Return</option>
-                </select>
-                <button onclick="window.location.reload()" class="icon-btn-small"><i class="material-icons">refresh</i></button>
-            </div>
-        </div>
-
-        <div id="sales-list" class="sales-list">
-            </div>
-
-        <button id="fab-add" class="fab"><i class="material-icons">add</i></button>
+        <!-- Mobile Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-target="dashboard">
+                <i class="material-icons">dashboard</i>
+                <span>Dash</span>
+            </button>
+            <button class="nav-item" data-target="customers">
+                <i class="material-icons">people</i>
+                <span>Cust</span>
+            </button>
+            <button class="nav-item" data-target="sales">
+                <i class="material-icons">receipt</i>
+                <span>Sales</span>
+            </button>
+            <button class="nav-item" data-target="purchases">
+                <i class="material-icons">shopping_cart</i>
+                <span>Buy</span>
+            </button>
+        </nav>
     </section>
 
-    <section id="form-view" class="view hidden">
+    <!-- Generic Form Overlay (Used for Sales, Purchases, Customers) -->
+    <section id="form-view" class="view hidden overlay-view">
         <header class="app-header">
-            <button id="back-btn" class="icon-btn"><i class="material-icons">arrow_back</i></button>
-            <h2 id="form-title">New Sale</h2>
+            <button id="form-back-btn" class="icon-btn"><i class="material-icons">close</i></button>
+            <h2 id="form-title-text">New Entry</h2>
             <div style="width: 24px;"></div>
         </header>
 
-        <form id="sale-form" class="content-pad">
-            <input type="hidden" id="sale-id">
+        <div id="dynamic-form-container" class="content-pad">
+            <!-- Forms will be injected here or toggled -->
             
-            <div class="input-group">
-                <label>Customer Name</label>
-                <input type="text" id="cust-name" required>
-            </div>
-
-            <div class="input-group">
-                <label>Steel Type</label>
-                <select id="steel-type" required>
-                    <option value="L-Shape">L-Shape</option>
-                    <option value="O-Shape">O-Shape</option>
-                    <option value="U-Shape">U-Shape</option>
-                    <option value="T-Shape">T-Shape</option>
-                    <option value="Flat Bar">Flat Bar</option>
-                    <option value="Custom">Custom...</option>
-                </select>
-                <input type="text" id="custom-steel-input" class="hidden mt-1" placeholder="Enter custom type...">
-            </div>
-
-            <div class="row">
-                <div class="input-group half">
-                    <label>Quantity</label>
-                    <input type="number" id="qty" min="1" value="1" required>
+            <!-- SALE FORM -->
+            <form id="sale-form" class="hidden-form">
+                <input type="hidden" id="sale-id">
+                
+                <div class="input-group">
+                    <label>Customer</label>
+                    <div class="row">
+                        <select id="sale-customer-select" required style="flex:1">
+                            <option value="">Select Customer</option>
+                        </select>
+                        <button type="button" id="quick-add-customer" class="icon-btn-small" style="margin-left:5px;"><i class="material-icons">add</i></button>
+                    </div>
                 </div>
-                <div class="input-group half">
-                    <label>Unit Price</label>
-                    <input type="number" id="unit-price" step="0.01" required>
+
+                <div class="input-group">
+                    <label>Steel Type</label>
+                    <select id="steel-type" required>
+                        <option value="L-Shape">L-Shape</option>
+                        <option value="O-Shape">O-Shape</option>
+                        <option value="U-Shape">U-Shape</option>
+                        <option value="T-Shape">T-Shape</option>
+                        <option value="Flat Bar">Flat Bar</option>
+                        <option value="Custom">Custom...</option>
+                    </select>
+                    <input type="text" id="custom-steel-input" class="hidden mt-1" placeholder="Enter custom type...">
                 </div>
-            </div>
 
-            <div class="total-display">
-                Total: <span id="calc-total">0.00</span>
-            </div>
+                <div class="row">
+                    <div class="input-group half">
+                        <label>Quantity</label>
+                        <input type="number" id="qty" min="1" value="1" required>
+                    </div>
+                    <div class="input-group half">
+                        <label>Unit Price</label>
+                        <input type="number" id="unit-price" step="0.01" required>
+                    </div>
+                </div>
 
-            <div class="input-group">
-                <label>Payment Status</label>
-                <select id="status" required>
-                    <option value="Paid">Paid</option>
-                    <option value="Credit">Credit (Unpaid)</option>
-                    <option value="Return">Return</option>
-                </select>
-            </div>
+                <div class="row">
+                    <div class="input-group half">
+                        <label>Other Costs</label>
+                        <input type="number" id="other-costs" step="0.01" value="0">
+                    </div>
+                    <div class="input-group half">
+                        <label>Date</label>
+                        <input type="date" id="sale-date" required>
+                    </div>
+                </div>
 
-            <button type="submit" class="btn-primary">Save Sale</button>
-            <button type="button" id="delete-btn" class="btn-danger hidden">Delete Sale</button>
-        </form>
+                <div class="total-display">
+                    Total: <span id="calc-total">0.00</span>
+                </div>
+                <div class="total-display" style="color: var(--red); margin-top: 5px;">
+                    Credit: <span id="calc-balance">0.00</span>
+                </div>
+                
+                <div class="row">
+                    <div class="input-group half">
+                        <label>Amount Paid</label>
+                        <input type="number" id="sale-paid" step="0.01" value="0">
+                    </div>
+                    <div class="input-group half">
+                        <label>Remainder / Adj.</label>
+                        <input type="number" id="remainder" step="0.01" value="0">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Payment Status</label>
+                    <select id="status" required>
+                        <option value="Paid">Paid</option>
+                        <option value="Credit">Credit (Part/Unpaid)</option>
+                        <option value="Return">Return</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Additional Info / Reminder</label>
+                    <input type="text" id="sale-info" placeholder="Optional notes...">
+                </div>
+
+                <button type="submit" class="btn-primary">Save Sale</button>
+                <button type="button" id="delete-sale-btn" class="btn-danger hidden">Delete Sale</button>
+            </form>
+
+            <!-- CUSTOMER FORM -->
+            <form id="customer-form" class="hidden-form hidden">
+                <input type="hidden" id="customer-id">
+                <div class="input-group">
+                    <label>Customer Name</label>
+                    <input type="text" id="customer-name" required>
+                </div>
+                <div class="input-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="customer-phone" required>
+                </div>
+                <button type="submit" class="btn-primary">Save Customer</button>
+                <button type="button" id="delete-customer-btn" class="btn-danger hidden">Delete Customer</button>
+            </form>
+
+            <!-- PURCHASE FORM (Overhauled) -->
+             <form id="purchase-form" class="hidden-form hidden">
+                <input type="hidden" id="purchase-id">
+                
+                <div class="input-group">
+                    <label>Supplier / Customer</label>
+                    <div class="row">
+                        <select id="purchase-customer-select" required style="flex:1">
+                            <option value="">Select Supplier/Customer</option>
+                        </select>
+                        <button type="button" id="quick-add-supplier" class="icon-btn-small" style="margin-left:5px;"><i class="material-icons">add</i></button>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Item Name / Type</label>
+                    <input type="text" id="purchase-item" required>
+                </div>
+
+                 <div class="row">
+                    <div class="input-group half">
+                        <label>Quantity</label>
+                        <input type="number" id="purchase-qty" min="1" required>
+                    </div>
+                    <div class="input-group half">
+                        <label>Unit Price</label>
+                        <input type="number" id="purchase-cost" step="0.01" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Other Costs</label>
+                    <input type="number" id="purchase-other-costs" step="0.01" value="0">
+                </div>
+
+                <div class="total-display">
+                    Total: <span id="purchase-total-display">0.00</span>
+                </div>
+                <div class="total-display" style="color: var(--red); margin-top: 5px;">
+                    Credit: <span id="purchase-balance-display">0.00</span>
+                </div>
+
+                <div class="row">
+                    <div class="input-group half">
+                        <label>Amount Paid</label>
+                        <input type="number" id="purchase-paid" step="0.01" value="0">
+                    </div>
+                    <div class="input-group half">
+                        <label>Remainder / Adj.</label>
+                        <input type="number" id="purchase-remainder" step="0.01" value="0">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Status</label>
+                     <select id="purchase-status" required>
+                        <option value="Paid">Paid</option>
+                        <option value="Credit">Credit</option>
+                    </select>
+                </div>
+
+                 <div class="input-group">
+                    <label>Date</label>
+                    <input type="date" id="purchase-date" required>
+                </div>
+                
+                 <div class="input-group">
+                    <label>Notes</label>
+                    <input type="text" id="purchase-notes">
+                </div>
+
+                <button type="submit" class="btn-primary">Save Purchase</button>
+                 <button type="button" id="delete-purchase-btn" class="btn-danger hidden">Delete Purchase</button>
+            </form>
+        </div>
     </section>
 
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
