@@ -824,6 +824,11 @@ function initNavigation() {
     }
 
     // Specific Add Buttons
+    const mobileSettingsBtn = document.getElementById('settings-btn-mobile');
+    if(mobileSettingsBtn) {
+        mobileSettingsBtn.addEventListener('click', () => switchSubView('settings'));
+    }
+
     const addCustBtn = document.getElementById('add-customer-btn');
     if(addCustBtn) addCustBtn.addEventListener('click', () => window.openForm('customer'));
 
