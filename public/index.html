@@ -182,8 +182,16 @@
                         <h4>Change Password</h4>
                         <form id="change-password-form">
                             <div class="input-group">
+                                <label>Current Password</label>
+                                <input type="password" id="current-password" placeholder="Enter current password" required>
+                            </div>
+                            <div class="input-group">
                                 <label>New Password</label>
-                                <input type="password" id="new-password" required>
+                                <input type="password" id="new-password" placeholder="Min 6 characters" required>
+                            </div>
+                            <div class="input-group">
+                                <label>Confirm New Password</label>
+                                <input type="password" id="confirm-password" placeholder="Repeat new password" required>
                             </div>
                             <button type="submit" class="btn-primary">Update Password</button>
                         </form>
@@ -243,6 +251,10 @@
             <button class="nav-item" data-target="purchases">
                 <i class="material-icons">shopping_cart</i>
                 <span>Buy</span>
+            </button>
+            <button class="nav-item" data-target="settings">
+                <i class="material-icons">settings</i>
+                <span>Set</span>
             </button>
         </nav>
     </section>

@@ -722,20 +722,47 @@ if (deleteCustBtn) {
 
 
 // SETTINGS
-document.getElementById('change-password-form').addEventListener('submit', (e) => {
+document.getElementById('change-password-form').addEventListener('submit', async (e) => {
     e.preventDefault();
+    const currentPass = document.getElementById('current-password').value;
     const newPass = document.getElementById('new-password').value;
-    if(newPass.length < 6) {
-        alert("Password must be at least 6 characters");
+    const confirmPass = document.getElementById('confirm-password').value;
+    const btn = e.submitter;
+
+    if (newPass.length < 6) {
+        alert("New password must be at least 6 characters");
         return;
     }
-    
-    currentUser.updatePassword(newPass).then(() => {
-        showToast("Password Updated");
+
+    if (newPass !== confirmPass) {
+        alert("New passwords do not match!");
+        return;
+    }
+
+    setBtnLoading(btn, true, "Updating...");
+
+    try {
+        // 1. Re-authenticate
+        const credential = firebase.auth.EmailAuthProvider.credential(currentUser.email, currentPass);
+        await currentUser.reauthenticateWithCredential(credential);
+
+        // 2. Update Password
+        await currentUser.updatePassword(newPass);
+
+        showToast("Password Updated Successfully");
         document.getElementById('change-password-form').reset();
-    }).catch((error) => {
-        alert("Error: " + error.message);
-    });
+        // Redirect to dashboard after success
+        switchSubView('dashboard');
+    } catch (error) {
+        console.error("Password Update Error:", error);
+        if (error.code === 'auth/wrong-password') {
+            alert("Error: The current password you entered is incorrect.");
+        } else {
+            alert("Error: " + error.message);
+        }
+    } finally {
+        setBtnLoading(btn, false, "Update Password");
+    }
 });
 
 // DRILL DOWN LOGIC
